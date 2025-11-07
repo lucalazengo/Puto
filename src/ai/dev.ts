@@ -1,1 +1,6 @@
-// Flows will be imported for their side effects in this file.
+import { config } from 'dotenv';
+config();
+
+import '@/ai/flows/real-time-transcription.ts';
+import '@/ai/flows/generate-summary.ts';
+import '@/ai/flows/intelligent-action-item-assignment.ts';
