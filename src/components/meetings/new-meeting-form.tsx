@@ -17,10 +17,10 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { useToast } from '@/hooks/use-toast';
 
 const NewMeetingSchema = z.object({
-  title: z.string().min(3, 'Title must be at least 3 characters.'),
-  date: z.string().min(1, 'Date is required.'),
-  agenda: z.string().min(10, 'Agenda must be at least 10 characters.'),
-  participantIds: z.array(z.string()).min(1, 'At least one participant is required.'),
+  title: z.string().min(3, 'O título deve ter pelo menos 3 caracteres.'),
+  date: z.string().min(1, 'A data é obrigatória.'),
+  agenda: z.string().min(10, 'A pauta deve ter pelo menos 10 caracteres.'),
+  participantIds: z.array(z.string()).min(1, 'Pelo menos um participante é obrigatório.'),
 });
 
 type NewMeetingFormValues = z.infer<typeof NewMeetingSchema>;
@@ -29,7 +29,7 @@ function SubmitButton() {
   const { pending } = useFormStatus();
   return (
     <Button type="submit" disabled={pending}>
-      {pending ? 'Creating...' : 'Create Meeting'}
+      {pending ? 'Criando...' : 'Criar Reunião'}
     </Button>
   );
 }
@@ -62,7 +62,7 @@ export function NewMeetingForm({ participants }: { participants: Participant[] }
       if(errorMessages) {
         toast({
           variant: "destructive",
-          title: "Error creating meeting",
+          title: "Erro ao criar reunião",
           description: errorMessages,
         });
       }
@@ -83,17 +83,17 @@ export function NewMeetingForm({ participants }: { participants: Participant[] }
       <Card>
         <CardContent className="p-6 space-y-6">
           <div className="space-y-2">
-            <Label htmlFor="title">Meeting Title</Label>
-            <Input id="title" {...register('title')} placeholder="e.g., Q4 Planning Session" />
+            <Label htmlFor="title">Título da Reunião</Label>
+            <Input id="title" {...register('title')} placeholder="ex: Sessão de Planejamento Q4" />
             {errors.title && <p className="text-sm text-destructive">{errors.title.message}</p>}
           </div>
           <div className="space-y-2">
-            <Label htmlFor="date">Date and Time</Label>
+            <Label htmlFor="date">Data e Hora</Label>
             <Input id="date" type="datetime-local" {...register('date')} />
             {errors.date && <p className="text-sm text-destructive">{errors.date.message}</p>}
           </div>
           <div className="space-y-2">
-            <Label>Participants</Label>
+            <Label>Participantes</Label>
             <div className="p-4 border rounded-md grid grid-cols-2 gap-4">
               {participants.map(p => (
                 <div key={p.id} className="flex items-center gap-2">
@@ -115,11 +115,11 @@ export function NewMeetingForm({ participants }: { participants: Participant[] }
              {errors.participantIds && <p className="text-sm text-destructive">{errors.participantIds.message}</p>}
           </div>
           <div className="space-y-2">
-            <Label htmlFor="agenda">Agenda</Label>
+            <Label htmlFor="agenda">Pauta</Label>
             <Textarea
               id="agenda"
               {...register('agenda')}
-              placeholder="1. Opening remarks..."
+              placeholder="1. Comentários iniciais..."
               rows={5}
             />
             {errors.agenda && <p className="text-sm text-destructive">{errors.agenda.message}</p>}

@@ -1,4 +1,5 @@
 import { format } from 'date-fns';
+import { ptBR } from 'date-fns/locale';
 import { Calendar, Users } from 'lucide-react';
 import type { Meeting } from '@/lib/types';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
@@ -11,11 +12,11 @@ export function MeetingHeader({ meeting }: { meeting: Meeting }) {
       <div className="flex flex-wrap items-center gap-x-6 gap-y-2 text-sm text-muted-foreground">
         <div className="flex items-center gap-2">
           <Calendar className="h-4 w-4" />
-          <span>{format(new Date(meeting.date), 'EEEE, MMMM d, yyyy @ h:mm a')}</span>
+          <span>{format(new Date(meeting.date), "EEEE, d 'de' MMMM, yyyy 'às' h:mm a", { locale: ptBR })}</span>
         </div>
         <div className="flex items-center gap-2">
           <Users className="h-4 w-4" />
-          <span>Participants</span>
+          <span>Participantes</span>
         </div>
         <div className="flex items-center -space-x-2">
           <TooltipProvider delayDuration={0}>

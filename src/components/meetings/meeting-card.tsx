@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { format } from 'date-fns';
+import { ptBR } from 'date-fns/locale';
 import { Calendar, Users, ArrowRight } from 'lucide-react';
 import type { Meeting } from '@/lib/types';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
@@ -17,7 +18,7 @@ export function MeetingCard({ meeting }: MeetingCardProps) {
         <CardTitle className="line-clamp-2">{meeting.title}</CardTitle>
         <CardDescription className="flex items-center gap-2 pt-2">
           <Calendar className="h-4 w-4" />
-          <span>{format(new Date(meeting.date), 'EEE, MMM d, yyyy @ h:mm a')}</span>
+          <span>{format(new Date(meeting.date), "EEE, d 'de' MMM, yyyy 'às' h:mm a", { locale: ptBR })}</span>
         </CardDescription>
       </CardHeader>
       <CardContent className="flex items-center justify-between">
@@ -46,7 +47,7 @@ export function MeetingCard({ meeting }: MeetingCardProps) {
           href={`/meetings/${meeting.id}`}
           className="flex items-center gap-2 text-sm font-semibold text-primary"
         >
-          View Details <ArrowRight className="h-4 w-4" />
+          Ver Detalhes <ArrowRight className="h-4 w-4" />
         </Link>
       </CardFooter>
     </Card>

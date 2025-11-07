@@ -16,18 +16,18 @@ export default function DashboardPage() {
   return (
     <div className="flex flex-col h-full">
       <header className="flex items-center justify-between p-6 border-b bg-card">
-        <h1 className="text-2xl font-bold">Dashboard</h1>
+        <h1 className="text-2xl font-bold">Painel</h1>
         <Button asChild>
           <Link href="/meetings/new">
             <PlusCircle />
-            New Meeting
+            Nova Reunião
           </Link>
         </Button>
       </header>
       <main className="flex-1 overflow-auto p-6">
         <div className="space-y-8">
           <div>
-            <h2 className="text-xl font-semibold mb-4">Upcoming Meetings</h2>
+            <h2 className="text-xl font-semibold mb-4">Próximas Reuniões</h2>
             {upcomingMeetings.length > 0 ? (
               <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
                 {upcomingMeetings.map((meeting) => (
@@ -35,11 +35,11 @@ export default function DashboardPage() {
                 ))}
               </div>
             ) : (
-              <p className="text-muted-foreground">No upcoming meetings scheduled.</p>
+              <p className="text-muted-foreground">Nenhuma reunião futura agendada.</p>
             )}
           </div>
           <div>
-            <h2 className="text-xl font-semibold mb-4">Past Meetings</h2>
+            <h2 className="text-xl font-semibold mb-4">Reuniões Passadas</h2>
             {pastMeetings.length > 0 ? (
               <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
                 {pastMeetings.map((meeting) => (
@@ -47,7 +47,7 @@ export default function DashboardPage() {
                 ))}
               </div>
             ) : (
-              <p className="text-muted-foreground">No past meetings found.</p>
+              <p className="text-muted-foreground">Nenhuma reunião passada encontrada.</p>
             )}
           </div>
         </div>

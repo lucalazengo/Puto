@@ -38,13 +38,13 @@ export function ActionItemsSection({ meeting, allParticipants, disabled }: { mee
     setIsLoading(false);
     if (result.suggestions) {
       if(result.suggestions.length === 0) {
-        toast({ title: 'No Suggestions', description: 'AI could not find any clear action items from the notes.' });
+        toast({ title: 'Nenhuma Sugestão', description: 'A IA não conseguiu encontrar itens de ação claros nas anotações.' });
         return;
       }
       setSuggestions(result.suggestions);
       setShowSuggestions(true);
     } else {
-      toast({ variant: 'destructive', title: 'Error', description: result.error });
+      toast({ variant: 'destructive', title: 'Erro', description: result.error });
     }
   };
 
@@ -59,10 +59,10 @@ export function ActionItemsSection({ meeting, allParticipants, disabled }: { mee
     
     const result = await addActionItem(meeting.id, newActionItemData);
     if(result.success) {
-        toast({title: "Action Item Added", description: `"${result.item?.item}" was added.`});
+        toast({title: "Item de Ação Adicionado", description: `"${result.item?.item}" foi adicionado.`});
         setSuggestions(prev => prev.filter(s => s.item !== suggestion.item));
     } else {
-        toast({variant: 'destructive', title: 'Error', description: result.error});
+        toast({variant: 'destructive', title: 'Erro', description: result.error});
     }
   }
 
@@ -78,12 +78,12 @@ export function ActionItemsSection({ meeting, allParticipants, disabled }: { mee
         <CardHeader>
           <div className="flex items-center justify-between">
             <div>
-                <CardTitle>Action Items</CardTitle>
-                <CardDescription>Tasks assigned during the meeting.</CardDescription>
+                <CardTitle>Itens de Ação</CardTitle>
+                <CardDescription>Tarefas atribuídas durante a reunião.</CardDescription>
             </div>
             <Button onClick={handleSuggest} size="sm" disabled={disabled || isLoading}>
               {isLoading ? <LoaderCircle className="animate-spin" /> : <Lightbulb />}
-              Suggest Items
+              Sugerir Itens
             </Button>
           </div>
         </CardHeader>
@@ -101,12 +101,12 @@ export function ActionItemsSection({ meeting, allParticipants, disabled }: { mee
                       <div className="flex items-center gap-4 text-xs text-muted-foreground">
                         <div className="flex items-center gap-1">
                           <User className="h-3 w-3" />
-                          <span>{getParticipant(item.assignee)?.name || 'Unknown'}</span>
+                          <span>{getParticipant(item.assignee)?.name || 'Desconhecido'}</span>
                         </div>
                         {item.deadline && (
                             <div className="flex items-center gap-1">
                                 <Calendar className="h-3 w-3" />
-                                <span>Due {format(parseISO(item.deadline), "MMM d, yyyy")}</span>
+                                <span>Prazo {format(parseISO(item.deadline), "d 'de' MMM, yyyy")}</span>
                             </div>
                         )}
                       </div>
@@ -118,20 +118,20 @@ export function ActionItemsSection({ meeting, allParticipants, disabled }: { mee
               ))}
             </ul>
           ) : (
-            <p className="text-sm text-muted-foreground text-center py-4">No action items assigned yet.</p>
+            <p className="text-sm text-muted-foreground text-center py-4">Nenhum item de ação atribuído ainda.</p>
           )}
         </CardContent>
         <CardFooter>
-             {/* Future: <Button variant="outline" disabled={disabled}><Plus/> Add Manually</Button> */}
+             {/* Futuro: <Button variant="outline" disabled={disabled}><Plus/> Adicionar Manualmente</Button> */}
         </CardFooter>
       </Card>
       
       <Dialog open={showSuggestions} onOpenChange={setShowSuggestions}>
         <DialogContent className="max-w-2xl">
           <DialogHeader>
-            <DialogTitle>Suggested Action Items</DialogTitle>
+            <DialogTitle>Itens de Ação Sugeridos</DialogTitle>
             <DialogDescription>
-              AI has suggested these action items based on the meeting notes. Add the ones you want to keep.
+              A IA sugeriu estes itens de ação com base nas anotações da reunião. Adicione os que você deseja manter.
             </DialogDescription>
           </DialogHeader>
           <div className="max-h-[60vh] overflow-y-auto p-1">
@@ -140,18 +140,18 @@ export function ActionItemsSection({ meeting, allParticipants, disabled }: { mee
                     <li key={i} className="flex items-center gap-4 p-4 border rounded-lg">
                         <div className="flex-1 space-y-1">
                             <p className="font-medium">{s.item}</p>
-                            <p className="text-sm text-muted-foreground">Assignee: {s.assignee}</p>
-                            {s.deadline && <p className="text-sm text-muted-foreground">Deadline: {s.deadline}</p>}
+                            <p className="text-sm text-muted-foreground">Responsável: {s.assignee}</p>
+                            {s.deadline && <p className="text-sm text-muted-foreground">Prazo: {s.deadline}</p>}
                         </div>
                         <Button size="sm" onClick={() => handleAddSuggestion(s)} disabled={!s.assigneeId}>
-                            <Plus className="h-4 w-4 mr-2"/> Add
+                            <Plus className="h-4 w-4 mr-2"/> Adicionar
                         </Button>
                     </li>
                 ))}
             </ul>
           </div>
           <DialogFooter>
-            <Button variant="outline" onClick={() => setShowSuggestions(false)}>Close</Button>
+            <Button variant="outline" onClick={() => setShowSuggestions(false)}>Fechar</Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>

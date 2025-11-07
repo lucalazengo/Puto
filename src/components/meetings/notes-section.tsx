@@ -45,7 +45,7 @@ export function NotesSection({ meeting, disabled }: { meeting: Meeting, disabled
           if (result.transcript) {
             setNotes(prev => (prev ? prev + '\n' : '') + result.transcript);
           } else if (result.error) {
-            toast({ variant: 'destructive', title: 'Transcription Error', description: result.error });
+            toast({ variant: 'destructive', title: 'Erro de Transcrição', description: result.error });
           }
         };
       };
@@ -67,9 +67,9 @@ export function NotesSection({ meeting, disabled }: { meeting: Meeting, disabled
   const handleSaveNotes = async () => {
     const result = await updateNotes(meeting.id, notes);
     if (result.success) {
-      toast({ title: 'Success', description: 'Notes have been saved.' });
+      toast({ title: 'Sucesso', description: 'As anotações foram salvas.' });
     } else {
-      toast({ variant: 'destructive', title: 'Error', description: 'Failed to save notes.' });
+      toast({ variant: 'destructive', title: 'Erro', description: 'Falha ao salvar as anotações.' });
     }
   };
   
@@ -78,18 +78,18 @@ export function NotesSection({ meeting, disabled }: { meeting: Meeting, disabled
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Notes</CardTitle>
+        <CardTitle>Anotações</CardTitle>
         <CardDescription>
-          {disabled ? "You can take notes after the meeting has started." : "Record audio for real-time transcription or type your notes below."}
+          {disabled ? "Você pode fazer anotações depois que a reunião começar." : "Grave áudio para transcrição em tempo real ou digite suas anotações abaixo."}
         </CardDescription>
       </CardHeader>
       <CardContent className="space-y-4">
         {permissionError && (
           <Alert variant="destructive">
             <AlertTriangle className="h-4 w-4" />
-            <AlertTitle>Microphone Access Denied</AlertTitle>
+            <AlertTitle>Acesso ao Microfone Negado</AlertTitle>
             <AlertDescription>
-              Please allow microphone access in your browser settings to use the recording feature.
+              Por favor, permita o acesso ao microfone nas configurações do seu navegador para usar o recurso de gravação.
             </AlertDescription>
           </Alert>
         )}
@@ -97,26 +97,26 @@ export function NotesSection({ meeting, disabled }: { meeting: Meeting, disabled
           {!isRecording ? (
             <Button onClick={handleStartRecording} disabled={recordButtonDisabled}>
               {isTranscribing ? <LoaderCircle className="animate-spin" /> : <Mic />}
-              <span>{isTranscribing ? 'Transcribing...' : 'Start Recording'}</span>
+              <span>{isTranscribing ? 'Transcrevendo...' : 'Iniciar Gravação'}</span>
             </Button>
           ) : (
             <Button onClick={handleStopRecording} variant="destructive">
               <Square />
-              <span>Stop Recording</span>
+              <span>Parar Gravação</span>
             </Button>
           )}
         </div>
         <Textarea
           value={notes}
           onChange={(e) => setNotes(e.target.value)}
-          placeholder="Meeting notes will appear here..."
+          placeholder="As anotações da reunião aparecerão aqui..."
           rows={15}
           disabled={disabled}
         />
       </CardContent>
       <CardFooter>
         <Button onClick={handleSaveNotes} disabled={disabled || notes === meeting.notes}>
-          Save Notes
+          Salvar Anotações
         </Button>
       </CardFooter>
     </Card>

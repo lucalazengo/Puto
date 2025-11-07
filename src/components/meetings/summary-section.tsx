@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { Sparkles, LoaderCircle } from 'lucide-react';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { generateMeetingSummary } from '@/lib/actions';
 import { useToast } from '@/hooks/use-toast';
@@ -23,25 +23,25 @@ export function SummarySection({ meeting, disabled }: { meeting: Meeting, disabl
     setIsLoading(false);
     if (result.summary) {
       setSummary(result.summary);
-      toast({ title: 'Summary Generated', description: 'The meeting summary has been created.' });
+      toast({ title: 'Resumo Gerado', description: 'O resumo da reunião foi criado.' });
     } else {
-      toast({ variant: 'destructive', title: 'Error', description: result.error });
+      toast({ variant: 'destructive', title: 'Erro', description: result.error });
     }
   };
 
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Summary</CardTitle>
-        <CardDescription>A brief overview of the meeting.</CardDescription>
+        <CardTitle>Resumo</CardTitle>
+        <CardDescription>Uma visão geral da reunião.</CardDescription>
       </CardHeader>
       <CardContent>
         {summary ? (
           <p className="text-sm text-muted-foreground">{summary}</p>
         ) : (
           <div className="text-center text-sm text-muted-foreground py-6">
-            {isLoading ? 'Generating summary...' : (
-                disabled ? 'Summary can be generated after the meeting.' : 'No summary generated yet.'
+            {isLoading ? 'Gerando resumo...' : (
+                disabled ? 'O resumo pode ser gerado após a reunião.' : 'Nenhum resumo gerado ainda.'
             )}
           </div>
         )}
@@ -49,7 +49,7 @@ export function SummarySection({ meeting, disabled }: { meeting: Meeting, disabl
       <CardFooter className="flex justify-end">
         <Button onClick={handleGenerate} disabled={disabled || isLoading}>
           {isLoading ? <LoaderCircle className="animate-spin" /> : <Sparkles />}
-          {summary ? 'Regenerate' : 'Generate'}
+          {summary ? 'Gerar Novamente' : 'Gerar'}
         </Button>
       </CardFooter>
     </Card>

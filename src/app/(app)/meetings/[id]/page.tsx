@@ -30,7 +30,7 @@ export default function MeetingPage({ params }: { params: { id: string } }) {
         <aside className="space-y-6 overflow-y-auto">
           <Card>
             <CardHeader>
-              <CardTitle>Agenda</CardTitle>
+              <CardTitle>Pauta</CardTitle>
             </CardHeader>
             <CardContent>
               <p className="text-sm whitespace-pre-wrap">{meeting.agenda}</p>

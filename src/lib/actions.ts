@@ -10,16 +10,16 @@ import { suggestActionItems as suggestActionItemsFlow } from '@/ai/flows/intelli
 import { realTimeTranscription } from '@/ai/flows/real-time-transcription';
 
 const NewMeetingSchema = z.object({
-  title: z.string().min(3, 'Title must be at least 3 characters.'),
-  date: z.string().min(1, 'Date is required.'),
-  participants: z.string().min(1, 'At least one participant is required.'),
-  agenda: z.string().min(10, 'Agenda must be at least 10 characters.'),
+  title: z.string().min(3, 'O título deve ter pelo menos 3 caracteres.'),
+  date: z.string().min(1, 'A data é obrigatória.'),
+  participants: z.string().min(1, 'Pelo menos um participante é obrigatório.'),
+  agenda: z.string().min(10, 'A pauta deve ter pelo menos 10 caracteres.'),
 });
 
 function findMeeting(id: string) {
   const meeting = meetings.find((m) => m.id === id);
   if (!meeting) {
-    throw new Error('Meeting not found');
+    throw new Error('Reunião não encontrada');
   }
   return meeting;
 }
@@ -43,7 +43,7 @@ export async function createMeeting(prevState: any, formData: FormData) {
 
   if (meetingParticipants.length !== participantIds.length) {
     return {
-      errors: { participants: ['Invalid participant ID found.'] },
+      errors: { participants: ['ID de participante inválido encontrado.'] },
     };
   }
 
@@ -84,7 +84,7 @@ export async function transcribeAudio(meetingId: string, audioDataUri: string) {
     revalidatePath(`/meetings/${meetingId}`);
     return { transcript: result.transcription };
   } catch (error) {
-    return { error: 'Failed to transcribe audio.' };
+    return { error: 'Falha ao transcrever o áudio.' };
   }
 }
 
@@ -92,14 +92,14 @@ export async function generateMeetingSummary(meetingId: string) {
   try {
     const meeting = findMeeting(meetingId);
     if (!meeting.notes) {
-      return { error: 'There are no notes to summarize.' };
+      return { error: 'Não há anotações para resumir.' };
     }
     const result = await generateSummary({ meetingNotes: meeting.notes });
     meeting.summary = result.summary;
     revalidatePath(`/meetings/${meetingId}`);
     return { summary: result.summary };
   } catch (error) {
-    return { error: 'Failed to generate summary.' };
+    return { error: 'Falha ao gerar o resumo.' };
   }
 }
 
@@ -107,7 +107,7 @@ export async function suggestActionItems(meetingId: string) {
   try {
     const meeting = findMeeting(meetingId);
     if (!meeting.notes) {
-      return { error: 'There are no notes to analyze for action items.' };
+      return { error: 'Não há anotações para analisar para itens de ação.' };
     }
     const result = await suggestActionItemsFlow({
       meetingTranscript: meeting.notes,
@@ -121,7 +121,7 @@ export async function suggestActionItems(meetingId: string) {
 
     return { suggestions: suggestionsWithParticipants };
   } catch (error) {
-    return { error: 'Failed to suggest action items.' };
+    return { error: 'Falha ao sugerir itens de ação.' };
   }
 }
 
@@ -150,7 +150,7 @@ export async function toggleActionItem(meetingId: string, actionItemId: string) 
             revalidatePath(`/meetings/${meetingId}`);
             return { success: true };
         }
-        throw new Error("Action item not found");
+        throw new Error("Item de ação não encontrado");
     } catch (error) {
         return { success: false, error: (error as Error).message };
     }
